@@ -7,7 +7,7 @@ public class NoiseMapGeneration : MonoBehaviour
     //Function to generate a noise map using Perlin noise. Creates a float at each coordinate on the terrain
     //as a number between 0 and 1 to give that coordinate a random height.
 
-    public float[,] GenerateNoiseMap(int mapDepth, int mapWidth, float scale)
+    public float[,] GenerateNoiseMap(int mapDepth, int mapWidth, float scale, float offsetX, float offSetZ)
     {
         //Create an empty noise map with the mapDepth and mapWidth coordinates (Z and X respectively)
         float[,] noiseMap = new float[mapDepth, mapWidth];
@@ -19,8 +19,8 @@ public class NoiseMapGeneration : MonoBehaviour
             for (int xIndex = 0; xIndex < mapWidth; xIndex++)
             {
                 //Calculate sample indices based on the coordinates and scale
-                float sampleX = xIndex / scale;
-                float sampleZ = zIndex / scale;
+                float sampleX = (xIndex + offsetX) / scale;
+                float sampleZ = (zIndex + offSetZ) / scale;
 
                 //Generate noise value using perlin noise
                 float noise = Mathf.PerlinNoise(sampleX, sampleZ);

@@ -12,6 +12,7 @@ public class TerrainType
 }
 public class TileGeneration : MonoBehaviour
 {
+
     #region Variables
     //Terrain Types
     [SerializeField]
@@ -48,11 +49,16 @@ public class TileGeneration : MonoBehaviour
         int tileWidth = tileDepth;
 
         //Calculate the offsets based on the tile position
-        float[,] heightMap = this.noiseMapGeneration.GenerateNoiseMap(tileDepth, tileWidth, this.mapScale);
+        float offsetX = -this.gameObject.transform.position.x;
+        float offsetZ = -this.gameObject.transform.position.z;
+
+        //Calculate the offsets based on the tile position
+        float[,] heightMap = this.noiseMapGeneration.GenerateNoiseMap(tileDepth, tileWidth, this.mapScale, offsetX, offsetZ);
 
         //Generate a heightmap using noise
         Texture2D tileTexture = BuildTexture(heightMap);
         this.tileRenderer.material.mainTexture = tileTexture;
+        UpdateMeshVertices(heightMap);
     }
 
     private Texture2D BuildTexture(float[,] heightMap)
@@ -101,6 +107,49 @@ public class TileGeneration : MonoBehaviour
 
         return terrainTypes[terrainTypes.Length - 1];
     }
+
+    #region Update Mesh Vertices
+
+    [SerializeField]
+    private float heightMultiplier;
+
+    [SerializeField]
+    private AnimationCurve heightCurve;
+
+    private void UpdateMeshVertices(float[,] heightMap)
+    {
+        int tileDepth = heightMap.GetLength(0);
+        int tileWidth = heightMap.GetLength(1);
+
+        Vector3[] meshVertices = this.meshFilter.mesh.vertices;
+
+        //iterate through all the heightMap coordinates, updating the vertex index
+        int vertexIndex = 0;
+        for (int zIndex = 0; zIndex < tileDepth; zIndex++)
+        {
+            for (int xIndex = 0; xIndex < tileWidth; xIndex++)
+            {
+                float height = heightMap[zIndex, xIndex];
+
+                Vector3 vertex = meshVertices[vertexIndex];
+
+                //Change the vertex Y coordinate, proportional to the height value
+                meshVertices[vertexIndex] = new Vector3(vertex.x, this.heightCurve.Evaluate(height) * this.heightMultiplier, vertex.z);
+
+                vertexIndex++;
+            }
+        }
+
+        //Update the vertices in the mesh and update its properties
+        this.meshFilter.mesh.vertices = meshVertices;
+        this.meshFilter.mesh.RecalculateBounds();
+        this.meshFilter.mesh.RecalculateNormals();
+
+        //Update the mesh collider
+        this.meshCollider.sharedMesh = this.meshFilter.mesh;
+    }
+
+    #endregion
 }
 
 
