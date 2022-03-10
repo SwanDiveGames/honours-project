@@ -148,7 +148,7 @@ MonoBehaviour:
   - seed: 6712
     frequency: 0.25
     amplitude: 4
-  heightMultiplier: 6
+  heightMultiplier: 8
   heightCurve:
     serializedVersion: 2
     m_Curve:
