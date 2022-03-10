@@ -126,19 +126,29 @@ MonoBehaviour:
   terrainTypes:
   - name: water
     height: 0.4
-    colour: {r: 0.19003202, g: 0.3361962, b: 0.6415094, a: 0}
+    colour: {r: 0.15827695, g: 0.4603723, b: 0.7169812, a: 0}
   - name: grass
     height: 0.7
-    colour: {r: 0.17643286, g: 0.5283019, b: 0.23960765, a: 0}
+    colour: {r: 0.06952649, g: 0.5943396, b: 0.1628266, a: 0}
   - name: mountain
     height: 1
-    colour: {r: 0.26415092, g: 0.1727118, b: 0.14802419, a: 0}
+    colour: {r: 0.2735849, g: 0.18228906, b: 0.15847276, a: 0}
   noiseMapGeneration: {fileID: 7641955037389774662}
   tileRenderer: {fileID: 7641955037389774660}
   meshFilter: {fileID: 7641955037389774659}
   meshCollider: {fileID: 7641955037389774661}
-  mapScale: 10
-  heightMultiplier: 5
+  mapScale: 3
+  waves:
+  - seed: 5613
+    frequency: 1
+    amplitude: 1
+  - seed: 9551
+    frequency: 0.5
+    amplitude: 2
+  - seed: 6712
+    frequency: 0.25
+    amplitude: 4
+  heightMultiplier: 3
   heightCurve:
     serializedVersion: 2
     m_Curve:
