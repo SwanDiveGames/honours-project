@@ -125,10 +125,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   terrainTypes:
   - name: water
-    height: 0.4
+    height: 0.38
     colour: {r: 0.15827695, g: 0.4603723, b: 0.7169812, a: 0}
   - name: grass
-    height: 0.7
+    height: 0.6
     colour: {r: 0.06952649, g: 0.5943396, b: 0.1628266, a: 0}
   - name: mountain
     height: 1
@@ -148,7 +148,7 @@ MonoBehaviour:
   - seed: 6712
     frequency: 0.25
     amplitude: 4
-  heightMultiplier: 3
+  heightMultiplier: 6
   heightCurve:
     serializedVersion: 2
     m_Curve:
@@ -162,8 +162,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.4083609
-      value: 0.00262326
+      time: 0.38
+      value: 0
       inSlope: -0.000038761013
       outSlope: -0.000038761013
       tangentMode: 0
