@@ -7,7 +7,7 @@ public class NoiseMapGeneration : MonoBehaviour
     //Function to generate a noise map using Perlin noise. Creates a float at each coordinate on the terrain
     //as a number between 0 and 1 to give that coordinate a random height.
 
-    public float[,] GenerateNoiseMap(int mapDepth, int mapWidth, float scale, float offsetX, float offSetZ, Wave[] waves)
+    public float[,] GeneratePerlinNoiseMap(int mapDepth, int mapWidth, float scale, float offsetX, float offSetZ, Wave[] waves)
     {
         //Create an empty noise map with the mapDepth and mapWidth coordinates (Z and X respectively)
         float[,] noiseMap = new float[mapDepth, mapWidth];
@@ -48,6 +48,29 @@ public class NoiseMapGeneration : MonoBehaviour
         }
 
         //Return the generated coordinates
+        return noiseMap;
+    }
+
+    //Function to generate a noise map for heat distribution for generating biomes. Using perlin nosie again to simulate uneven distribution (as is present in the real world)
+    //Z coordinate required this time to find the middle of the world and distribute heat accordingly (think hemispheres on Earth)
+    public float[,] GenerateUniformNoiseMap (int mapDepth, int mapWidth, float centerVertexZ, float maxDistanceZ, float offsetZ)
+    {
+        //Create an empty noise map with mapDepth and mapWidth coordinates
+        float[,] noiseMap = new float[mapDepth, mapDepth];
+
+        for (int zIndex = 0; zIndex < mapDepth; zIndex++)
+        {
+            //Calculate the sampleZ by summing the index and the offset
+            float sampleZ = zIndex + offsetZ;
+
+            //Calculate the noise proportional to the distance of the sample to the center of the level
+            float noise = Mathf.Abs(sampleZ - centerVertexZ) / maxDistanceZ;
+
+            //Apply the noise for all points with this Z coordinate
+            for (int xIndex = 0; xIndex < mapWidth; xIndex++)
+                noiseMap[mapDepth - zIndex - 1, xIndex] = noise;
+        }
+
         return noiseMap;
     }
 }
