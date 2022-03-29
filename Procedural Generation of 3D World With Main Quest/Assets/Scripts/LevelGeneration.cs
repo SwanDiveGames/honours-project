@@ -12,6 +12,9 @@ public class LevelGeneration : MonoBehaviour
     [SerializeField]
     private GameObject tilePrefab;
 
+    [SerializeField]
+    private float centerVertexZ, maxDistanceZ;
+
     #endregion
 
     private void Start()
@@ -38,6 +41,9 @@ public class LevelGeneration : MonoBehaviour
 
                 //Instantiate a new tile
                 GameObject tile = Instantiate(tilePrefab, tilePosition, Quaternion.identity) as GameObject;
+
+                //Generate the tile texture
+                tile.GetComponent<TileGeneration>().GenerateTile(centerVertexZ, maxDistanceZ);
             }
         }
     }

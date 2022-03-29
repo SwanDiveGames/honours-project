@@ -123,22 +123,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4fd4d9ecc24f0241859ee529be7ccef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  terrainTypes:
-  - name: water
-    height: 0.38
-    colour: {r: 0.15827695, g: 0.4603723, b: 0.7169812, a: 0}
-  - name: grass
-    height: 0.6
-    colour: {r: 0.06952649, g: 0.5943396, b: 0.1628266, a: 0}
-  - name: mountain
-    height: 1
-    colour: {r: 0.2735849, g: 0.18228906, b: 0.15847276, a: 0}
+  heightTerrainTypes:
+  - name: Water
+    threshold: 0.4
+    colour: {r: 0.2474635, g: 0.49644092, b: 0.7830189, a: 0}
+    index: 0
+  - name: Grass
+    threshold: 0.7
+    colour: {r: 0.25250143, g: 0.78431374, b: 0.24705882, a: 0}
+    index: 1
+  - name: Mountain
+    threshold: 1
+    colour: {r: 0.4056604, g: 0.23799838, b: 0.1014151, a: 0}
+    index: 2
+  heatTerrainTypes:
+  - name: Hottest
+    threshold: 0.25
+    colour: {r: 0.8018868, g: 0.34420612, b: 0.34420612, a: 0}
+    index: 0
+  - name: Hot
+    threshold: 0.5
+    colour: {r: 0.8867924, g: 0.76776314, b: 0.4308473, a: 0}
+    index: 1
+  - name: Cold
+    threshold: 0.75
+    colour: {r: 0.17853329, g: 0.48881882, b: 0.6415094, a: 0}
+    index: 2
+  - name: Coldest
+    threshold: 1
+    colour: {r: 0.6759523, g: 0.9245283, b: 0.8958173, a: 0}
+    index: 3
+  moistureTerrainTypes: []
+  visualizationMode: 0
   noiseMapGeneration: {fileID: 7641955037389774662}
   tileRenderer: {fileID: 7641955037389774660}
   meshFilter: {fileID: 7641955037389774659}
   meshCollider: {fileID: 7641955037389774661}
   mapScale: 3
-  waves:
+  heightWaves:
   - seed: 5613
     frequency: 1
     amplitude: 1
@@ -148,6 +170,41 @@ MonoBehaviour:
   - seed: 6712
     frequency: 0.25
     amplitude: 4
+  heatWaves:
+  - seed: 5613
+    frequency: 1
+    amplitude: 1
+  - seed: 9551
+    frequency: 0.5
+    amplitude: 2
+  - seed: 6712
+    frequency: 0.25
+    amplitude: 4
+  moistureWaves:
+  - seed: 5613
+    frequency: 1
+    amplitude: 1
+  - seed: 9551
+    frequency: 0.5
+    amplitude: 2
+  - seed: 6712
+    frequency: 0.25
+    amplitude: 4
+  biomes:
+  - biomes:
+    - name: 
+      colour: {r: 0, g: 0, b: 0, a: 0}
+    - name: 
+      colour: {r: 0, g: 0, b: 0, a: 0}
+    - name: 
+      colour: {r: 0, g: 0, b: 0, a: 0}
+    - name: 
+      colour: {r: 0, g: 0, b: 0, a: 0}
+    - name: 
+      colour: {r: 0, g: 0, b: 0, a: 0}
+    - name: 
+      colour: {r: 0, g: 0, b: 0, a: 0}
+  waterColour: {r: 0.22988607, g: 0.48038706, b: 0.7735849, a: 0}
   heightMultiplier: 8
   heightCurve:
     serializedVersion: 2
@@ -170,6 +227,72 @@ MonoBehaviour:
       weightedMode: 0
       inWeight: 0.38368523
       outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  heatCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.38
+      value: 0
+      inSlope: -0
+      outSlope: -0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  moistureCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.38
+      value: 0
+      inSlope: 0.012358903
+      outSlope: 0.012358903
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.3077957
     - serializedVersion: 3
       time: 1
       value: 1
