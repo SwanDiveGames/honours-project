@@ -7,6 +7,31 @@ public class TileGeneration : MonoBehaviour
 {
 
     #region Variables
+    //Set Visualization Mode
+    [SerializeField]
+    private VisualizationMode visualizationMode;
+
+    //Set map scale size
+    [SerializeField]
+    private float mapScale;
+
+    [SerializeField]
+    private float heightMultiplier;
+
+    //Noise Map Generator
+    [SerializeField]
+    NoiseMapGeneration noiseMapGeneration;
+
+    //Rendering
+    [SerializeField]
+    private MeshRenderer tileRenderer;
+
+    [SerializeField]
+    private MeshFilter meshFilter;
+
+    [SerializeField]
+    private MeshCollider meshCollider;
+
     //Terrain Types
     [SerializeField]
     private TerrainType[] heightTerrainTypes;
@@ -18,23 +43,7 @@ public class TileGeneration : MonoBehaviour
     private TerrainType[] moistureTerrainTypes;
 
     [SerializeField]
-    private VisualizationMode visualizationMode;
-
-    //Noise Map Generator
-    [SerializeField]
-    NoiseMapGeneration noiseMapGeneration;
-
-    [SerializeField]
-    private MeshRenderer tileRenderer;
-
-    [SerializeField]
-    private MeshFilter meshFilter;
-
-    [SerializeField]
-    private MeshCollider meshCollider;
-
-    [SerializeField]
-    private float mapScale;
+    private BiomeRow[] biomes;
 
     //Waves for noise generation in the height map, heat map and moisture map
     [SerializeField]
@@ -46,15 +55,11 @@ public class TileGeneration : MonoBehaviour
     [SerializeField]
     private Wave[] moistureWaves;
 
-    [SerializeField]
-    private BiomeRow[] biomes;
-
+    //Default water colour for biomes generation
     [SerializeField]
     private Color waterColour;
 
-    [SerializeField]
-    private float heightMultiplier;
-
+    //Curves for transition between terrain types
     [SerializeField]
     private AnimationCurve heightCurve;
 
@@ -193,19 +198,19 @@ public class TileGeneration : MonoBehaviour
 
     }
 
-    TerrainType ChooseTerrainType (float height, TerrainType[] terrainTypes)
+    TerrainType ChooseTerrainType (float noise, TerrainType[] terrainTypes)
     {
         //for each terrain type, check if the height is lower than the terrain's height
-        foreach (TerrainType terrainType in heightTerrainTypes)
+        foreach (TerrainType terrainType in terrainTypes)
         {
             //return the first terrain type whose height is higher than the generated one
-            if (height < terrainType.threshold)
+            if (noise < terrainType.threshold)
             {
                 return terrainType;
             }
         }
 
-        return heightTerrainTypes[heightTerrainTypes.Length - 1];
+        return terrainTypes[terrainTypes.Length - 1];
     }
 
     #region Update Mesh Vertices
@@ -260,7 +265,7 @@ public class TileGeneration : MonoBehaviour
                 TerrainType heightTerrainType = heightTerrainTypes[zIndex, xIndex];
 
                 //Check if the current coordinate is a water region
-                if (heightTerrainType.name != "water")
+                if (heightTerrainType.name != "Water")
                 {
                     //If a coordinate is not water, its biome will be defined by the heat and mositure values
                     TerrainType heatTerrainType = heatTerrainTypes[zIndex, xIndex];

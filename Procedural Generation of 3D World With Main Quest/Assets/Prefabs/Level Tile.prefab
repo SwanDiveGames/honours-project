@@ -123,13 +123,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4fd4d9ecc24f0241859ee529be7ccef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  visualizationMode: 2
+  mapScale: 3
+  heightMultiplier: 9
+  noiseMapGeneration: {fileID: 7641955037389774662}
+  tileRenderer: {fileID: 7641955037389774660}
+  meshFilter: {fileID: 7641955037389774659}
+  meshCollider: {fileID: 7641955037389774661}
   heightTerrainTypes:
   - name: Water
-    threshold: 0.4
+    threshold: 0.45
     colour: {r: 0.2474635, g: 0.49644092, b: 0.7830189, a: 0}
     index: 0
   - name: Grass
-    threshold: 0.7
+    threshold: 0.65
     colour: {r: 0.25250143, g: 0.78431374, b: 0.24705882, a: 0}
     index: 1
   - name: Mountain
@@ -153,13 +160,60 @@ MonoBehaviour:
     threshold: 1
     colour: {r: 0.6759523, g: 0.9245283, b: 0.8958173, a: 0}
     index: 3
-  moistureTerrainTypes: []
-  visualizationMode: 0
-  noiseMapGeneration: {fileID: 7641955037389774662}
-  tileRenderer: {fileID: 7641955037389774660}
-  meshFilter: {fileID: 7641955037389774659}
-  meshCollider: {fileID: 7641955037389774661}
-  mapScale: 3
+  moistureTerrainTypes:
+  - name: Dryest
+    threshold: 0.25
+    colour: {r: 0.7264151, g: 0.28439835, b: 0.2880824, a: 0}
+    index: 0
+  - name: Dry
+    threshold: 0.5
+    colour: {r: 0.9528302, g: 0.8418415, b: 0.33708617, a: 0}
+    index: 1
+  - name: Wet
+    threshold: 0.75
+    colour: {r: 0.48713955, g: 0.8396226, b: 0.81574214, a: 0}
+    index: 2
+  - name: Wettest
+    threshold: 1
+    colour: {r: 0.26014596, g: 0.4027113, b: 0.6981132, a: 0}
+    index: 3
+  biomes:
+  - biomes:
+    - name: Desert
+      colour: {r: 1, g: 0.9944407, b: 0.8443396, a: 0}
+    - name: Grassland
+      colour: {r: 0.32280168, g: 0.735849, b: 0.35107112, a: 0}
+    - name: Tundra
+      colour: {r: 1, g: 1, b: 1, a: 0}
+    - name: Tundra
+      colour: {r: 1, g: 1, b: 1, a: 0}
+  - biomes:
+    - name: Savanna
+      colour: {r: 0.9339623, g: 0.7502269, b: 0.17181383, a: 0}
+    - name: Savanna
+      colour: {r: 0.9372549, g: 0.7529412, b: 0.17254902, a: 0}
+    - name: Boreal Forest
+      colour: {r: 0.16426241, g: 0.3301887, b: 0.13550197, a: 0}
+    - name: Tundra
+      colour: {r: 1, g: 1, b: 1, a: 0}
+  - biomes:
+    - name: Tropical Rainforest
+      colour: {r: 0.17661981, g: 0.764151, b: 0.49259844, a: 0}
+    - name: Boreal Forest
+      colour: {r: 0.16470589, g: 0.32941177, b: 0.13725491, a: 0}
+    - name: Boreal Forest
+      colour: {r: 0.16470589, g: 0.32941177, b: 0.13725491, a: 0}
+    - name: Tundra
+      colour: {r: 1, g: 1, b: 1, a: 0}
+  - biomes:
+    - name: Tropical Rainforest
+      colour: {r: 0.1764706, g: 0.7647059, b: 0.49411765, a: 0}
+    - name: Tropical Rainforest
+      colour: {r: 0.1764706, g: 0.7647059, b: 0.49411765, a: 0}
+    - name: Tundra
+      colour: {r: 1, g: 1, b: 1, a: 0}
+    - name: Tundra
+      colour: {r: 1, g: 1, b: 1, a: 0}
   heightWaves:
   - seed: 5613
     frequency: 1
@@ -171,7 +225,7 @@ MonoBehaviour:
     frequency: 0.25
     amplitude: 4
   heatWaves:
-  - seed: 5613
+  - seed: 1022
     frequency: 1
     amplitude: 1
   - seed: 9551
@@ -190,22 +244,7 @@ MonoBehaviour:
   - seed: 6712
     frequency: 0.25
     amplitude: 4
-  biomes:
-  - biomes:
-    - name: 
-      colour: {r: 0, g: 0, b: 0, a: 0}
-    - name: 
-      colour: {r: 0, g: 0, b: 0, a: 0}
-    - name: 
-      colour: {r: 0, g: 0, b: 0, a: 0}
-    - name: 
-      colour: {r: 0, g: 0, b: 0, a: 0}
-    - name: 
-      colour: {r: 0, g: 0, b: 0, a: 0}
-    - name: 
-      colour: {r: 0, g: 0, b: 0, a: 0}
-  waterColour: {r: 0.22988607, g: 0.48038706, b: 0.7735849, a: 0}
-  heightMultiplier: 8
+  waterColour: {r: 0.23137254, g: 0.6391805, b: 0.77254903, a: 0}
   heightCurve:
     serializedVersion: 2
     m_Curve:
