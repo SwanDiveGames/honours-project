@@ -56,7 +56,7 @@ public class NoiseMapGeneration : MonoBehaviour
     public float[,] GenerateUniformNoiseMap (int mapDepth, int mapWidth, float centerVertexZ, float maxDistanceZ, float offsetZ)
     {
         //Create an empty noise map with mapDepth and mapWidth coordinates
-        float[,] noiseMap = new float[mapDepth, mapDepth];
+        float[,] noiseMap = new float[mapDepth, mapWidth];
 
         for (int zIndex = 0; zIndex < mapDepth; zIndex++)
         {

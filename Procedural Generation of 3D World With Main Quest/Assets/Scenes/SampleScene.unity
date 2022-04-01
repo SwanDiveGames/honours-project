@@ -328,8 +328,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 791f9ade12b58074ab1637766342e263, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapWidthInTiles: 16
-  mapDepthInTiles: 9
+  mapWidthInTiles: 10
+  mapDepthInTiles: 10
   tilePrefab: {fileID: 7641955037389774664, guid: 14d14a2eeea6ca746b8efe0355d834de, type: 3}
   centerVertexZ: 55
   maxDistanceZ: 55
