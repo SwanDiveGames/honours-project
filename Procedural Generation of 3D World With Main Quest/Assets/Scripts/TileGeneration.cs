@@ -69,10 +69,13 @@ public class TileGeneration : MonoBehaviour
     [SerializeField]
     private AnimationCurve moistureCurve;
 
+    //Save texture for tile data
+    Texture2D exportTexture;
+
     #endregion
 
 
-    public void GenerateTile(float centerVertexZ, float maxDistanceZ)
+    public TileData GenerateTile(float centerVertexZ, float maxDistanceZ)
     {
         //Calculate the tile depth and width based on the mesh vertices
         Vector3[] meshVertices = this.meshFilter.mesh.vertices;
@@ -134,33 +137,48 @@ public class TileGeneration : MonoBehaviour
         Texture2D moistureMapTexture = BuildTexture(moistureMap, this.moistureTerrainTypes, chosenMoistureTerrainTypes);
 
         //Build a biomes texture from the three other noise variables
-        Texture2D biomesTexture = BuildBiomeTexture(chosenHeightTerrainTypes, chosenHeightTerrainTypes, chosenMoistureTerrainTypes);
+        Biome[,] chosenBiomes = new Biome[tileDepth, tileWidth];
+        Texture2D biomesTexture = BuildBiomeTexture(chosenHeightTerrainTypes, chosenHeightTerrainTypes, chosenMoistureTerrainTypes, chosenBiomes);
+
 
         switch(this.visualizationMode)
         {
             case VisualizationMode.Height:
                 //Assign material texture to be the height texture
                 this.tileRenderer.material.mainTexture = heightMapTexture;
+                exportTexture = heightMapTexture;
                 break;
 
             case VisualizationMode.Heat:
                 //Assign material texture to be the heat texture
                 this.tileRenderer.material.mainTexture = heatMapTexture;
+                exportTexture = heatMapTexture;
                 break;
 
             case VisualizationMode.Moisture:
                 //Assign material texture to be the moisture texture
                 this.tileRenderer.material.mainTexture = moistureMapTexture;
+                exportTexture = moistureMapTexture;
                 break;
 
             case VisualizationMode.Biome:
                 //Assign material texture to be the biome texture
                 this.tileRenderer.material.mainTexture = biomesTexture;
+                exportTexture = biomesTexture;
                 break;
         }
 
+        //Save texture to export to tile data
+
         //Update the tile mesh vertices according to the height map
         UpdateMeshVertices(heightMap);
+
+        //Generate tile data and return
+        TileData tileData = new TileData(heightMap, heatMap, moistureMap, 
+            chosenHeightTerrainTypes, chosenHeatTerrainTypes, chosenMoistureTerrainTypes, chosenBiomes, 
+            this.meshFilter.mesh, exportTexture);
+
+        return tileData;
     }
 
     private Texture2D BuildTexture(float[,] heightMap, TerrainType[] terrainTypes, TerrainType[,] chosenterrainTypes)
@@ -249,7 +267,7 @@ public class TileGeneration : MonoBehaviour
 
     #endregion
 
-    private Texture2D BuildBiomeTexture(TerrainType[,] heightTerrainTypes, TerrainType[,] heatTerrainTypes, TerrainType[,] moistureTerrainTypes)
+    private Texture2D BuildBiomeTexture(TerrainType[,] heightTerrainTypes, TerrainType[,] heatTerrainTypes, TerrainType[,] moistureTerrainTypes, Biome[,] chosenBiomes)
     {
         int tileDepth = heatTerrainTypes.GetLength(0);
         int tileWidth = heatTerrainTypes.GetLength(1);
@@ -276,6 +294,9 @@ public class TileGeneration : MonoBehaviour
 
                     //Assign the colour according to the selected biome
                     colourMap[colourIndex] = biome.colour;
+
+                    //Save biome in chosenBiomes matrix only when not water
+                    chosenBiomes[zIndex, xIndex] = biome;
                 }
 
                 else
@@ -319,4 +340,30 @@ public class BiomeRow
 }
 
 enum VisualizationMode { Height, Heat, Moisture, Biome }
+
+//Class to store all data for a single tile
+public class TileData
+{
+    public float[,] heightMap, heatMap, moistureMap;
+    public TerrainType[,] chosenHeightTerrainTypes, chosenHeatTerrainTypes, chosenMoistureTerrainTypes;
+    public Biome[,] chosenBiomes;
+    public Mesh mesh;
+
+    public Texture2D texture;
+
+    public TileData(float[,] importHeightMap, float[,] importHeatMap, float[,] importMoistureMap,
+      TerrainType[,] importChosenHeightTerrainTypes, TerrainType[,] importChosenHeatTerrainTypes, TerrainType[,] importChosenMoistureTerrainTypes,
+      Biome[,] importChosenBiomes, Mesh importMesh, Texture2D importTexture)
+    {
+        this.heightMap = importHeightMap;
+        this.heatMap = importHeatMap;
+        this.moistureMap = importMoistureMap;
+        this.chosenHeightTerrainTypes = importChosenHeightTerrainTypes;
+        this.chosenHeatTerrainTypes = importChosenHeatTerrainTypes;
+        this.chosenMoistureTerrainTypes = importChosenMoistureTerrainTypes;
+        this.chosenBiomes = importChosenBiomes;
+        this.mesh = importMesh;
+        this.texture = importTexture;
+    }
+}
 
