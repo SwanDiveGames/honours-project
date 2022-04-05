@@ -69,8 +69,8 @@ public class TileGeneration : MonoBehaviour
     [SerializeField]
     private AnimationCurve moistureCurve;
 
-    //Save texture for tile data
-    Texture2D exportTexture;
+    ////Save texture for tile data
+    //Texture2D exportTexture;
 
     #endregion
 
@@ -146,29 +146,27 @@ public class TileGeneration : MonoBehaviour
             case VisualizationMode.Height:
                 //Assign material texture to be the height texture
                 this.tileRenderer.material.mainTexture = heightMapTexture;
-                exportTexture = heightMapTexture;
+                ///*exportTexture = heightMapTexture*/;
                 break;
 
             case VisualizationMode.Heat:
                 //Assign material texture to be the heat texture
                 this.tileRenderer.material.mainTexture = heatMapTexture;
-                exportTexture = heatMapTexture;
+                //exportTexture = heatMapTexture;
                 break;
 
             case VisualizationMode.Moisture:
                 //Assign material texture to be the moisture texture
                 this.tileRenderer.material.mainTexture = moistureMapTexture;
-                exportTexture = moistureMapTexture;
+                //exportTexture = moistureMapTexture;
                 break;
 
             case VisualizationMode.Biome:
                 //Assign material texture to be the biome texture
                 this.tileRenderer.material.mainTexture = biomesTexture;
-                exportTexture = biomesTexture;
+                //exportTexture = biomesTexture;
                 break;
         }
-
-        //Save texture to export to tile data
 
         //Update the tile mesh vertices according to the height map
         UpdateMeshVertices(heightMap);
@@ -176,7 +174,7 @@ public class TileGeneration : MonoBehaviour
         //Generate tile data and return
         TileData tileData = new TileData(heightMap, heatMap, moistureMap, 
             chosenHeightTerrainTypes, chosenHeatTerrainTypes, chosenMoistureTerrainTypes, chosenBiomes, 
-            this.meshFilter.mesh, exportTexture);
+            this.meshFilter.mesh, (Texture2D) this.tileRenderer.material.mainTexture);
 
         return tileData;
     }
@@ -231,7 +229,6 @@ public class TileGeneration : MonoBehaviour
         return terrainTypes[terrainTypes.Length - 1];
     }
 
-    #region Update Mesh Vertices
     private void UpdateMeshVertices(float[,] heightMap)
     {
         int tileDepth = heightMap.GetLength(0);
@@ -264,8 +261,6 @@ public class TileGeneration : MonoBehaviour
         //Update the mesh collider
         this.meshCollider.sharedMesh = this.meshFilter.mesh;
     }
-
-    #endregion
 
     private Texture2D BuildBiomeTexture(TerrainType[,] heightTerrainTypes, TerrainType[,] heatTerrainTypes, TerrainType[,] moistureTerrainTypes, Biome[,] chosenBiomes)
     {

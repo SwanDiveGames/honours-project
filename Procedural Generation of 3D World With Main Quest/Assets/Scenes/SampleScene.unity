@@ -334,7 +334,7 @@ MonoBehaviour:
   tilePrefab: {fileID: 7641955037389774664, guid: 14d14a2eeea6ca746b8efe0355d834de, type: 3}
   centerVertexZ: 55
   maxDistanceZ: 55
-  riverGeneration: {fileID: 0}
+  riverGeneration: {fileID: 1240764080}
 --- !u!4 &1240764079
 Transform:
   m_ObjectHideFlags: 0

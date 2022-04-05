@@ -19,7 +19,7 @@ public class RiverGeneration : MonoBehaviour
         {
             //Choose the origin point for the river
             Vector3 riverOrigin = ChooseRiverOrigin(mapDepth, mapWidth, mapData);
-
+            Debug.Log(riverOrigin.ToString());
             //Build the river starting from the origin and proceeding downwards
             BuildRiver(mapDepth, mapWidth, riverOrigin, mapData);
         }
@@ -44,6 +44,7 @@ public class RiverGeneration : MonoBehaviour
 
             //If the height value of this coordinate is higher than the threshold, choose it as the river origin
             float heightValue = tileData.heightMap[tileCoordinate.coordinateZIndex, tileCoordinate.coordinateXIndex];
+
             if (heightValue >= this.heightThreshold)
             {
                 found = true;
@@ -60,6 +61,7 @@ public class RiverGeneration : MonoBehaviour
         // the first coordinate is the river origin
         Vector3 currentCoordinate = riverOrigin;
         bool foundWater = false;
+
         while (!foundWater)
         {
             //Convert from map Coordinate System to Tile Coordinate System and retrieve the corresponding TileData
@@ -70,7 +72,7 @@ public class RiverGeneration : MonoBehaviour
             visitedCoordinates.Add(currentCoordinate);
 
             //Check if we have found water
-            if (tileData.chosenHeightTerrainTypes[tileCoordinate.coordinateZIndex, tileCoordinate.coordinateXIndex].name == "water")
+            if (tileData.chosenHeightTerrainTypes[tileCoordinate.coordinateZIndex, tileCoordinate.coordinateXIndex].name == "Water")
             {
                 //If we found water, stop
                 foundWater = true;
