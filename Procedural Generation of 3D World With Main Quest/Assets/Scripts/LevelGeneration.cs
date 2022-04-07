@@ -18,6 +18,9 @@ public class LevelGeneration : MonoBehaviour
     [SerializeField]
     private RiverGeneration riverGeneration;
 
+    [SerializeField]
+    private CityGeneration cityGeneration;
+
     #endregion
 
     private void Start()
@@ -61,6 +64,9 @@ public class LevelGeneration : MonoBehaviour
 
         //Generate rivers for the map
         riverGeneration.GenerateRivers(this.mapDepthInTiles * tileDepthInVertices, this.mapWidthInTiles * tileWidthInVertices, mapData);
+
+        //Generate cities in the map
+        cityGeneration.GenerateCities(this.mapDepthInTiles * tileDepthInVertices, this.mapWidthInTiles * tileWidthInVertices, mapData);
     }
 }
 
@@ -104,10 +110,10 @@ public class MapData
 public class TileCoordinate
 {
     //Class to represent a coordinate in the tile coordinate system
-    //Due to the way tiles are generated, each tile's coordiantes are confused and inconsistent with Unity's built in coordinae system
-    //as I generate tiles beside previous ones and then vertices from the top right corner back to the bottom left.
-    //This class should change the way coordinates are accessed in each tile and make the system better compatible with Unity and therefore
-    //easier to work with.
+    /*Due to the way tiles are generated, each tile's coordinates are confused and inconsistent with Unity's built in coordinate system
+    as I generate tiles beside previous ones and then vertices from the top right corner back to the bottom left.
+    This class should change the way coordinates are accessed in each tile and make the system better compatible with Unity and therefore
+    easier to work with.*/
 
     public int tileZIndex;
     public int tileXIndex;

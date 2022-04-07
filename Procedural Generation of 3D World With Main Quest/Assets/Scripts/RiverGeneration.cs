@@ -19,7 +19,7 @@ public class RiverGeneration : MonoBehaviour
         {
             //Choose the origin point for the river
             Vector3 riverOrigin = ChooseRiverOrigin(mapDepth, mapWidth, mapData);
-            Debug.Log(riverOrigin.ToString());
+
             //Build the river starting from the origin and proceeding downwards
             BuildRiver(mapDepth, mapWidth, riverOrigin, mapData);
         }
