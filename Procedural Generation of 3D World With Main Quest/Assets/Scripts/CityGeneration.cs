@@ -53,8 +53,8 @@ public class CityGeneration : MonoBehaviour
         while (!found)
         {
             //Pick a random coordinate inside the map
-            randomZIndex = Random.Range(0, mapDepth -22);
-            randomXIndex = Random.Range(0, mapWidth -22);
+            randomZIndex = Random.Range(0, mapDepth - (mapDepth / 5));
+            randomXIndex = Random.Range(0, mapWidth - (mapWidth / 5));
 
             //Convert from map coordinate system to tile coordinate system and retrieve corresponding tile data
             TileCoordinate tileCoordinate = mapData.ConvertToTileCoordinate(randomZIndex, randomXIndex);

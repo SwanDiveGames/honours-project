@@ -34,6 +34,8 @@ public class NoiseMapGeneration : MonoBehaviour
 
                 foreach (Wave wave in waves)
                 {
+                    //Randomise waves
+
                     //Generate noise value using Perlin Noise for a given wave
                     noise += wave.amplitude * Mathf.PerlinNoise(sampleX * wave.frequency + wave.seed, sampleZ * wave.frequency + wave.seed);
                     normalization += wave.amplitude;
