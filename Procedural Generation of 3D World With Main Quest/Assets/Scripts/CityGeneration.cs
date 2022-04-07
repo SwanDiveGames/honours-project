@@ -15,9 +15,13 @@ public class CityGeneration : MonoBehaviour
     [SerializeField]
     private GameObject cityPrefab;
 
+    private List<GameObject> cities;
+
     //Generating the cities themselves
     public void GenerateCities(int mapDepth, int mapWidth, MapData mapData)
     {
+        cities = new List<GameObject>();
+        
         //Want to generate as many cities as requested in the numberOfCities variable
         for (int cityCount = 0; cityCount < numberOfCities; cityCount++)
         {
@@ -26,6 +30,9 @@ public class CityGeneration : MonoBehaviour
 
             //Instantiate a city at the chosen spawn point
             GameObject city = Instantiate(cityPrefab, citySpawn, Quaternion.identity) as GameObject;
+
+            //Add the city to the list of cities
+            cities.Add(city);
         }        
     }
 
@@ -51,10 +58,30 @@ public class CityGeneration : MonoBehaviour
             {
                 Biome checkBiome = tileData.chosenBiomes[tileCoordinate.tileZIndex, tileCoordinate.tileXIndex];
 
+                Vector3 checkPoint = new Vector3(randomXIndex, 5, randomZIndex);
+
                 //Check radius for nearby cities
+                if (cities.Count > 0)
+                {
+                    foreach(GameObject city in cities)
+                    {
+                        if (Mathf.Abs(Vector3.Distance(checkPoint, city.transform.position)) >= spawnRadius)
+                        {
+                            found = true;
+                        }
 
+                        else
+                        {
+                            found = false;
+                            break;
+                        }
+                    }
+                }
 
-                found = true;
+                else
+                {
+                    found = true;
+                }
             }
         }
 
