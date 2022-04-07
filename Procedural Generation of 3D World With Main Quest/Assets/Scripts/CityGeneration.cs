@@ -17,6 +17,9 @@ public class CityGeneration : MonoBehaviour
 
     private List<GameObject> cities;
 
+    [SerializeField]
+    private Canvas mapUI;
+
     //Generating the cities themselves
     public void GenerateCities(int mapDepth, int mapWidth, MapData mapData)
     {
@@ -30,6 +33,10 @@ public class CityGeneration : MonoBehaviour
 
             //Instantiate a city at the chosen spawn point
             GameObject city = Instantiate(cityPrefab, citySpawn, Quaternion.identity) as GameObject;
+
+            //Name the city and display the name
+
+            city.GetComponentInChildren<TextMesh>().text = GenerateCityName(citySpawn, mapData);
 
             //Add the city to the list of cities
             cities.Add(city);
@@ -86,5 +93,76 @@ public class CityGeneration : MonoBehaviour
         }
 
         return new Vector3(randomXIndex, 5, randomZIndex); //We use 5 as the y coordinate as the map is only to be viewed top-down, and so the perceived elevation is irrelevant. It just has to be above the map terrain.
+    }
+
+    public string GenerateCityName(Vector3 citySpawn, MapData mapData)
+    {
+        //Arrays for prefixes, middles, and suffixes of city names
+        string[] savannaPrefix = new string[] { "Sa", "Sav", "San", "Su" };
+        string[] grasslandPrefix = new string[] { "Al", "An", "Ad" };
+        string[] desertPrefix = new string[] { "Dak", "Das", "Dol" };
+        string[] tundraPrefix = new string[] { "Ske", "Skja", "Sek" };
+        string[] borealPrefix = new string[] { "Tor", "Tav", "Tul" };
+        string[] rainPrefix = new string[] { "Bra", "Ban", "Bol" };
+
+        string[] middleWord = new string[] { "an", "ad", "va", "dar", "da", "la", "len", "liv", "ver", "vil" };
+
+        string[] savannaSuffix = new string[] { "a", "ah", "o", "ya", "da" };
+        string[] grasslandSuffix = new string[] { "ren", "id", "ds" };
+        string[] desertSuffix = new string[] { "ba", "ca", "vo" };
+        string[] tundraSuffix = new string[] { "a", "e", "oe" };
+        string[] borealSuffix = new string[] { "on", "en" };
+        string[] rainSuffix = new string[] { "go", "ga" };
+
+        
+        //Identify the biome the city is located in
+        TileCoordinate tileCoordinate = mapData.ConvertToTileCoordinate((int)citySpawn.z, (int)citySpawn.x);
+        TileData tileData = mapData.tilesData[tileCoordinate.tileZIndex, tileCoordinate.tileXIndex];
+
+        Biome cityBiome = tileData.chosenBiomes[tileCoordinate.tileZIndex, tileCoordinate.tileXIndex];
+
+        //Create the name
+        string cityPrefix = "";
+        string cityMiddle = "";
+        string citySuffix = "";
+
+        switch (cityBiome.name) //Check the biome name for the coordinate, then generate the prefix and suffix accordingly
+        {
+            case "Savanna":
+                cityPrefix = savannaPrefix[Random.Range(0, savannaPrefix.Length)];
+                citySuffix = savannaSuffix[Random.Range(0, savannaSuffix.Length)];
+                break;
+
+            case "Desert":
+                cityPrefix = desertPrefix[Random.Range(0, desertPrefix.Length)];
+                citySuffix = desertSuffix[Random.Range(0, desertSuffix.Length)];
+                break;
+
+            case "Grassland":
+                cityPrefix = grasslandPrefix[Random.Range(0, grasslandPrefix.Length)];
+                citySuffix = grasslandSuffix[Random.Range(0, grasslandSuffix.Length)];
+                break;
+
+            case "Tundra":
+                cityPrefix = tundraPrefix[Random.Range(0, tundraPrefix.Length)];
+                citySuffix = tundraSuffix[Random.Range(0, tundraSuffix.Length)];
+                break;
+
+            case "Boreal Forest":
+                cityPrefix = borealPrefix[Random.Range(0, borealPrefix.Length)];
+                citySuffix = borealSuffix[Random.Range(0, borealSuffix.Length)];
+                break;
+
+            case "Tropical Rainforest":
+                cityPrefix = rainPrefix[Random.Range(0, rainPrefix.Length)];
+                citySuffix = rainSuffix[Random.Range(0, rainSuffix.Length)];
+                break;
+        }
+
+        cityMiddle = middleWord[Random.Range(0, middleWord.Length)];
+
+        string cityName = cityPrefix + cityMiddle + citySuffix;
+
+        return cityName;
     }
 }
