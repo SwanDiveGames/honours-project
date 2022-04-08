@@ -21,6 +21,16 @@ public class LevelGeneration : MonoBehaviour
     [SerializeField]
     private CityGeneration cityGeneration;
 
+    //Waves for noise generation in the height map, heat map and moisture map
+    [SerializeField]
+    private Wave[] heightWaves;
+
+    [SerializeField]
+    private Wave[] heatWaves;
+
+    [SerializeField]
+    private Wave[] moistureWaves;
+
     #endregion
 
     private void Start()
@@ -41,10 +51,38 @@ public class LevelGeneration : MonoBehaviour
         int tileWidthInVertices = tileDepthInVertices;
 
         //Build an empty MapData object, to be filled with the generated tiles
-        MapData mapData = new MapData(tileDepthInVertices, tileWidthInVertices, this.mapDepthInTiles, this.mapWidthInTiles);
+        MapData mapData = new MapData(tileDepthInVertices, tileWidthInVertices, this.mapDepthInTiles, this.mapWidthInTiles, tileDepth, tileWidth);
+        Debug.Log("About to randomise waves");
+        //Randomise waves
+        for (int i = 0; i < heightWaves.Length; i++)
+        {
+            heightWaves[i].seed = Random.Range(2500, 7500);
+            heightWaves[i].amplitude = 1;
+            heightWaves[i].frequency = 1;
+
+            Debug.Log("Heightwave" + i + " randomised");
+        }
+
+        for (int i = 0; i < heatWaves.Length; i++)
+        {
+            heatWaves[i].seed = Random.Range(2500, 7500);
+            heatWaves[i].amplitude = 1;
+            heatWaves[i].frequency = 1;
+
+            Debug.Log("Heatwave" + i + " randomised");
+        }
+
+        for (int i = 0; i < moistureWaves.Length; i++)
+        {
+            moistureWaves[i].seed = Random.Range(2500, 7500);
+            moistureWaves[i].amplitude = 1;
+            moistureWaves[i].frequency = 1;
+
+            Debug.Log("Moisture wave" + i + " randomised");
+        }
 
         //For each tile, instantiate a tile in the correct position
-        for  (int xTileIndex = 0; xTileIndex < mapWidthInTiles; xTileIndex++)
+        for (int xTileIndex = 0; xTileIndex < mapWidthInTiles; xTileIndex++)
         {
             for (int zTileIndex = 0; zTileIndex < mapDepthInTiles; zTileIndex++)
             {
@@ -57,7 +95,7 @@ public class LevelGeneration : MonoBehaviour
                 GameObject tile = Instantiate(tilePrefab, tilePosition, Quaternion.identity) as GameObject;
 
                 //Generate the tile texture and save it in the map data
-                TileData tileData = tile.GetComponent<TileGeneration>().GenerateTile(centerVertexZ, maxDistanceZ);
+                TileData tileData = tile.GetComponent<TileGeneration>().GenerateTile(centerVertexZ, maxDistanceZ, heightWaves, heatWaves, moistureWaves);
                 mapData.AddTileData(tileData, zTileIndex, xTileIndex);
             }
         }
@@ -76,13 +114,18 @@ public class MapData
 
     public TileData[,] tilesData;
 
-    public MapData(int tileDepthInVertices, int tileWidthInVertices, int mapDepthInTiles, int mapWidthInTiles)
+    public int tileDepth, tileWidth;
+
+    public MapData(int tileDepthInVertices, int tileWidthInVertices, int mapDepthInTiles, int mapWidthInTiles, int tileDepth, int tileWidth)
     {
         //Build the tilesData matrix based on the map depth and width
         tilesData = new TileData[tileDepthInVertices * mapDepthInTiles, tileWidthInVertices * mapWidthInTiles];
 
         this.tileDepthInVertices = tileDepthInVertices;
         this.tileWidthInVertices = tileWidthInVertices;
+
+        this.tileDepth = tileDepth;
+        this.tileWidth = tileWidth;
     }
 
     public void AddTileData(TileData tileData, int tileZIndex, int tileXIndex)

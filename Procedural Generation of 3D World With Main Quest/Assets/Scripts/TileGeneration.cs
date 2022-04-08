@@ -45,15 +45,15 @@ public class TileGeneration : MonoBehaviour
     [SerializeField]
     private BiomeRow[] biomes;
 
-    //Waves for noise generation in the height map, heat map and moisture map
-    [SerializeField]
-    private Wave[] heightWaves;
+    ////Waves for noise generation in the height map, heat map and moisture map
+    //[SerializeField]
+    //private Wave[] heightWaves;
 
-    [SerializeField]
-    private Wave[] heatWaves;
+    //[SerializeField]
+    //private Wave[] heatWaves;
 
-    [SerializeField]
-    private Wave[] moistureWaves;
+    //[SerializeField]
+    //private Wave[] moistureWaves;
 
     //Default water colour for biomes generation
     [SerializeField]
@@ -75,8 +75,14 @@ public class TileGeneration : MonoBehaviour
     #endregion
 
 
-    public TileData GenerateTile(float centerVertexZ, float maxDistanceZ)
+    public TileData GenerateTile(float centerVertexZ, float maxDistanceZ, Wave[] heightWaves, Wave[] heatWaves, Wave[] moistureWaves)
     {
+        //Waves import
+        Wave[] heightImport = heightWaves;
+        Wave[] heatImport = heatWaves;
+        Wave[] moistureImport = moistureWaves;
+        
+        
         //Calculate the tile depth and width based on the mesh vertices
         Vector3[] meshVertices = this.meshFilter.mesh.vertices;
         int tileDepth = (int)Mathf.Sqrt(meshVertices.Length);
@@ -86,8 +92,9 @@ public class TileGeneration : MonoBehaviour
         float offsetX = -this.gameObject.transform.position.x;
         float offsetZ = -this.gameObject.transform.position.z;
 
+
         //Generate heightmap using perlin noise
-        float[,] heightMap = this.noiseMapGeneration.GeneratePerlinNoiseMap(tileDepth, tileWidth, this.mapScale, offsetX, offsetZ, this.heightWaves);
+        float[,] heightMap = this.noiseMapGeneration.GeneratePerlinNoiseMap(tileDepth, tileWidth, this.mapScale, offsetX, offsetZ, heightImport);
 
         //Calculate vertex offset based on the tile position and the distance between vertices
         Vector3 tileDimensions = this.meshFilter.mesh.bounds.size;
@@ -98,7 +105,7 @@ public class TileGeneration : MonoBehaviour
         float[,] uniformHeatmap = this.noiseMapGeneration.GenerateUniformNoiseMap(tileDepth, tileWidth, centerVertexZ, maxDistanceZ, vertexOffsetZ);
 
         //Generate a Heatmap using Perlin noise
-        float[,] randomHeatMap = this.noiseMapGeneration.GeneratePerlinNoiseMap(tileDepth, tileWidth, this.mapScale, offsetX, offsetZ, this.heatWaves);
+        float[,] randomHeatMap = this.noiseMapGeneration.GeneratePerlinNoiseMap(tileDepth, tileWidth, this.mapScale, offsetX, offsetZ, heatImport);
         float[,] heatMap = new float[tileDepth, tileWidth];
 
         for (int zIndex = 0; zIndex < tileDepth; zIndex++)
@@ -114,7 +121,7 @@ public class TileGeneration : MonoBehaviour
         }
 
         //Generate a moisture map using Perlin noise
-        float[,] moistureMap = this.noiseMapGeneration.GeneratePerlinNoiseMap(tileDepth, tileWidth, this.mapScale, offsetX, offsetZ, this.moistureWaves);
+        float[,] moistureMap = this.noiseMapGeneration.GeneratePerlinNoiseMap(tileDepth, tileWidth, this.mapScale, offsetX, offsetZ, moistureImport);
         for (int zIndex = 0; zIndex < tileDepth; zIndex++)
         {
             for (int xIndex = 0; xIndex < tileWidth; xIndex++)
