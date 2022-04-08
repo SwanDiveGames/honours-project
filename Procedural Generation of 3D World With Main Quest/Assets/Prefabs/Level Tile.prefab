@@ -180,25 +180,25 @@ MonoBehaviour:
   biomes:
   - biomes:
     - name: Desert
-      colour: {r: 1, g: 0.9944407, b: 0.8443396, a: 0}
+      colour: {r: 0.8396226, g: 0.55341727, b: 0.2811944, a: 0}
     - name: Grassland
-      colour: {r: 0.7372549, g: 0.32156864, b: 0.3375176, a: 0}
+      colour: {r: 0.3428711, g: 0.6320754, b: 0.35781473, a: 0}
     - name: Tundra
       colour: {r: 1, g: 1, b: 1, a: 0}
     - name: Tundra
       colour: {r: 1, g: 1, b: 1, a: 0}
   - biomes:
     - name: Savanna
-      colour: {r: 0.9339623, g: 0.7502269, b: 0.17181383, a: 0}
+      colour: {r: 0.90588236, g: 0.78039217, b: 0.38039216, a: 0}
     - name: Savanna
-      colour: {r: 0.9372549, g: 0.7529412, b: 0.17254902, a: 0}
+      colour: {r: 0.9056604, g: 0.77901256, b: 0.38020647, a: 0}
     - name: Boreal Forest
       colour: {r: 0.16426241, g: 0.3301887, b: 0.13550197, a: 0}
     - name: Tundra
       colour: {r: 1, g: 1, b: 1, a: 0}
   - biomes:
     - name: Tropical Rainforest
-      colour: {r: 0.7647059, g: 0.17647058, b: 0.66513723, a: 0}
+      colour: {r: 0.54147387, g: 0.9811321, b: 0.7992812, a: 0}
     - name: Boreal Forest
       colour: {r: 0.16470589, g: 0.32941177, b: 0.13725491, a: 0}
     - name: Boreal Forest
@@ -207,9 +207,9 @@ MonoBehaviour:
       colour: {r: 1, g: 1, b: 1, a: 0}
   - biomes:
     - name: Tropical Rainforest
-      colour: {r: 0.7647059, g: 0.1764706, b: 0.6666667, a: 0}
+      colour: {r: 0.54509807, g: 0.9843137, b: 0.8, a: 0}
     - name: Tropical Rainforest
-      colour: {r: 0.7647059, g: 0.1764706, b: 0.6666667, a: 0}
+      colour: {r: 0.54509807, g: 0.9843137, b: 0.8, a: 0}
     - name: Tundra
       colour: {r: 1, g: 1, b: 1, a: 0}
     - name: Tundra
@@ -244,7 +244,7 @@ MonoBehaviour:
   - seed: 9517
     frequency: 0.25
     amplitude: 4
-  waterColour: {r: 0.23137254, g: 0.6391805, b: 0.77254903, a: 0}
+  waterColour: {r: 0.24705882, g: 0.49803922, b: 0.78431374, a: 0}
   heightCurve:
     serializedVersion: 2
     m_Curve:

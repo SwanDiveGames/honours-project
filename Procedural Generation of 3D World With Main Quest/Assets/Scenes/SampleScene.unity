@@ -623,8 +623,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 825bdbc8489f64a45826106df4812bbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfCities: 25
-  spawnRadius: 7
+  numberOfCities: 35
+  spawnRadius: 5
   cityPrefab: {fileID: 5129420601139372000, guid: 2ea04af320076a245b8e3ea87f2efcc4, type: 3}
   mapUI: {fileID: 0}
 --- !u!1 &2010605483

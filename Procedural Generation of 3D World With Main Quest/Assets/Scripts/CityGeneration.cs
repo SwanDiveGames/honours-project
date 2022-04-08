@@ -98,20 +98,20 @@ public class CityGeneration : MonoBehaviour
     public string GenerateCityName(Vector3 citySpawn, MapData mapData)
     {
         //Arrays for prefixes, middles, and suffixes of city names
-        string[] savannaPrefix = new string[] { "Sa", "Sav", "San", "Su" };
+        string[] savannaPrefix = new string[] { "Sa", "Sav", "San", "Su", "Za", "Zu" };
         string[] grasslandPrefix = new string[] { "Al", "An", "Ad" };
         string[] desertPrefix = new string[] { "Dak", "Das", "Dol" };
         string[] tundraPrefix = new string[] { "Ske", "Skja", "Sek" };
-        string[] borealPrefix = new string[] { "Tor", "Tav", "Tul" };
+        string[] borealPrefix = new string[] { "Tor", "Tav", "Tul", "Tol" };
         string[] rainPrefix = new string[] { "Bra", "Ban", "Bol" };
 
-        string[] middleWord = new string[] { "an", "ad", "va", "dar", "da", "la", "len", "liv", "ver", "vil" };
+        string[] middleWord = new string[] { "an", "ad", "va", "dar", "da", "la", "len", "liv", "ver", "vil", "bad", "cad", "dav" };
 
         string[] savannaSuffix = new string[] { "a", "ah", "o", "ya", "da" };
         string[] grasslandSuffix = new string[] { "ren", "id", "ds" };
         string[] desertSuffix = new string[] { "ba", "ca", "vo" };
         string[] tundraSuffix = new string[] { "a", "e", "oe" };
-        string[] borealSuffix = new string[] { "on", "en" };
+        string[] borealSuffix = new string[] { "on", "en", "ak", "adh" };
         string[] rainSuffix = new string[] { "go", "ga" };
 
         
