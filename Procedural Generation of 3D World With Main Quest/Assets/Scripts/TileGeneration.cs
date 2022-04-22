@@ -77,30 +77,39 @@ public class TileGeneration : MonoBehaviour
 
     public TileData GenerateTile(float centerVertexZ, float maxDistanceZ, Wave[] heightWaves, Wave[] heatWaves, Wave[] moistureWaves)
     {
+        #region Waves Import
         //Waves import
         Wave[] heightImport = heightWaves;
         Wave[] heatImport = heatWaves;
         Wave[] moistureImport = moistureWaves;
-        
-        
+        #endregion
+
+        #region tile depth and width
         //Calculate the tile depth and width based on the mesh vertices
         Vector3[] meshVertices = this.meshFilter.mesh.vertices;
         int tileDepth = (int)Mathf.Sqrt(meshVertices.Length);
         int tileWidth = tileDepth;
+        #endregion
 
+        #region x and z offset
         //Calculate the offsets based on the tile position
         float offsetX = -this.gameObject.transform.position.x;
         float offsetZ = -this.gameObject.transform.position.z;
+        #endregion
 
-
+        #region heightmap
         //Generate heightmap using perlin noise
         float[,] heightMap = this.noiseMapGeneration.GeneratePerlinNoiseMap(tileDepth, tileWidth, this.mapScale, offsetX, offsetZ, heightImport);
+        #endregion
 
+        #region vertex offset and distance between vertices
         //Calculate vertex offset based on the tile position and the distance between vertices
         Vector3 tileDimensions = this.meshFilter.mesh.bounds.size;
         float distanceBetweenVertices = tileDimensions.z / (float)tileDepth;
         float vertexOffsetZ = this.gameObject.transform.position.z / distanceBetweenVertices;
+        #endregion
 
+        #region heatmap
         //Generate a Heatmap using uniform noise
         float[,] uniformHeatmap = this.noiseMapGeneration.GenerateUniformNoiseMap(tileDepth, tileWidth, centerVertexZ, maxDistanceZ, vertexOffsetZ);
 
@@ -119,7 +128,9 @@ public class TileGeneration : MonoBehaviour
                 heatMap[zIndex, xIndex] += this.heatCurve.Evaluate(heightMap[zIndex, xIndex] * heightMap[zIndex, xIndex]);
             }
         }
+        #endregion
 
+        #region moisture map
         //Generate a moisture map using Perlin noise
         float[,] moistureMap = this.noiseMapGeneration.GeneratePerlinNoiseMap(tileDepth, tileWidth, this.mapScale, offsetX, offsetZ, moistureImport);
         for (int zIndex = 0; zIndex < tileDepth; zIndex++)
@@ -130,7 +141,9 @@ public class TileGeneration : MonoBehaviour
                 moistureMap[zIndex, xIndex] -= this.moistureCurve.Evaluate(heightMap[zIndex, xIndex] * heightMap[zIndex, xIndex]);
             }
         }
+        #endregion
 
+        #region build textures
         //Build a texture from the height map
         TerrainType[,] chosenHeightTerrainTypes = new TerrainType[tileDepth, tileWidth];
         Texture2D heightMapTexture = BuildTexture(heightMap, this.heightTerrainTypes, chosenHeightTerrainTypes);
@@ -146,9 +159,10 @@ public class TileGeneration : MonoBehaviour
         //Build a biomes texture from the three other noise variables
         Biome[,] chosenBiomes = new Biome[tileDepth, tileWidth];
         Texture2D biomesTexture = BuildBiomeTexture(chosenHeightTerrainTypes, chosenHeightTerrainTypes, chosenMoistureTerrainTypes, chosenBiomes);
+        #endregion
 
-
-        switch(this.visualizationMode)
+        #region visualization mode
+        switch (this.visualizationMode)
         {
             case VisualizationMode.Height:
                 //Assign material texture to be the height texture
@@ -175,8 +189,12 @@ public class TileGeneration : MonoBehaviour
                 break;
         }
 
+        #endregion
+
+        #region update mesh vertices
         //Update the tile mesh vertices according to the height map
         UpdateMeshVertices(heightMap);
+        #endregion
 
         //Generate tile data and return
         TileData tileData = new TileData(heightMap, heatMap, moistureMap, 

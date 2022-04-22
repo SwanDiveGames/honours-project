@@ -17,9 +17,6 @@ public class CityGeneration : MonoBehaviour
 
     private List<GameObject> cities;
 
-    [SerializeField]
-    private Canvas mapUI;
-
     //Generating the cities themselves
     public void GenerateCities(int mapDepth, int mapWidth, MapData mapData)
     {
